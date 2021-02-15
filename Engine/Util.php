@@ -1,6 +1,6 @@
 <?php
 
-namespace BlogPhp\Engine;
+namespace VetoPhp\Engine;
 
 class Util
 {

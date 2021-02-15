@@ -1,5 +1,5 @@
 ErrorDocument 403 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 404 /Php-_mvc-veterinaire/view/error.php
+ErrorDocument 404 /Php-vitrine_mvc-veterinaire/view/error.php
 ErrorDocument 405 /Php-vitrine_mvc-veterinaire/view/error.php
 ErrorDocument 408 /Php-vitrine_mvc-veterinaire/view/error.php
 ErrorDocument 500 /Php-vitrine_mvc-veterinaire/view/error.php

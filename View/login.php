@@ -22,7 +22,8 @@
   						<input type="email" id="email" name="email" required="required">
   						<label for="email">Adresse email</label>
   					</div>
-
+				</div>	  
+				<div class="row">
   					<div class="input-field col s12">
   						<input type="password" id="password" name="password" required="required">
   						<label for="password">Mot de passe</label>
@@ -39,7 +40,7 @@
 
   		</div>
       <center>
-        <a href="<?=ROOT_URL?>blog_registration.html">Pas encore inscrit ?</a>
+        <a href="<?=ROOT_URL?>veto_registration.html">Pas encore inscrit ?</a>
       </center>
   	</div>
   </div>

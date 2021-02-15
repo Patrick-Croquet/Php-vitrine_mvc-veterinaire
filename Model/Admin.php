@@ -1,8 +1,8 @@
 <?php
 
-namespace BlogPhp\Model;
+namespace VetoPhp\Model;
 
-class Admin extends Blog
+class Admin extends Veto
 {
 
   /* ========== SELECT ========== */
@@ -15,7 +15,7 @@ class Admin extends Blog
   }
 
 
-  public function getCommentsUnseen()
+  public function getVisitesUnseen()
   {
     $oStmt = $this->oDb->query("
       SELECT  Comments.id,
@@ -46,7 +46,7 @@ class Admin extends Blog
   }
 
 
-  public function getSignaledComments()
+  public function getSignaledVisites()
   {
     $oStmt = $this->oDb->query("
       SELECT  Comments.id,
@@ -89,10 +89,9 @@ class Admin extends Blog
 
     public function update(array $aData)
     {
-      $oStmt = $this->oDb->prepare('UPDATE Posts SET title = :title, body = :body WHERE id = :postId LIMIT 1');
-      $oStmt->bindValue(':postId', $aData['post_id'], \PDO::PARAM_INT);
-      $oStmt->bindValue(':title', $aData['title'], \PDO::PARAM_STR);
-      $oStmt->bindValue(':body', $aData['body'], \PDO::PARAM_LOB);
+      $oStmt = $this->oDb->prepare('UPDATE Animals SET nom = :nom WHERE id = :animalId LIMIT 1');
+      $oStmt->bindValue(':animalId', $aData['animal_id'], \PDO::PARAM_INT);
+      $oStmt->bindValue(':nom', $aData['nom'], \PDO::PARAM_STR);
       return $oStmt->execute();
     }
 
@@ -105,12 +104,12 @@ class Admin extends Blog
       ];
 
       $oStmt = $this->oDb->prepare('UPDATE Animal SET photo = :photo WHERE id = :id');
-      move_uploaded_file($tmp_name,"static/img/posts/".$i['photo']);
+      move_uploaded_file($tmp_name,"static/img/animals/".$i['photo']);
       return $oStmt->execute($i);
     }
 
 
-    public function postImg($tmp_name, $extension)
+    public function animalImg($tmp_name, $extension)
     {
       $i = [
         'id'     => $this->oDb->lastInsertId(),
@@ -118,12 +117,12 @@ class Admin extends Blog
       ];
 
       $oStmt = $this->oDb->prepare('UPDATE Animal SET photo = :photo WHERE id = :id');
-      move_uploaded_file($tmp_name,"static/img/posts/".$i['photo']);
+      move_uploaded_file($tmp_name,"static/img/animals/".$i['photo']);
       return $oStmt->execute($i);
     }
 
 
-    public function see_comment()
+    public function see_visite()
     {
       $oStmt = $this->oDb->exec("UPDATE Comments SET seen = '1' WHERE id='{$_POST['id']}'");
       $oStmt = $this->oDb->exec("DELETE FROM Votes WHERE comment_id = {$_POST['id']}");
@@ -136,29 +135,29 @@ class Admin extends Blog
 
     public function delete($iId)
     {
-      $oStmt = $this->oDb->prepare('DELETE FROM Posts WHERE id = :postId LIMIT 1');
-      $oStmt->bindParam(':postId', $iId, \PDO::PARAM_INT);
+      $oStmt = $this->oDb->prepare('DELETE FROM Animal WHERE id = :animalId LIMIT 1');
+      $oStmt->bindParam(':animalId', $iId, \PDO::PARAM_INT);
       return $oStmt->execute();
     }
 
 
-    public function deleteComments($iId){
-      $oStmt = $this->oDb->prepare('DELETE FROM Comments WHERE post_id = :postId');
-      $oStmt->bindParam(':postId', $iId, \PDO::PARAM_INT);
+    public function deleteVisites($iId){
+      $oStmt = $this->oDb->prepare('DELETE FROM Visite WHERE animal_id = :animalId');
+      $oStmt->bindParam(':animalId', $iId, \PDO::PARAM_INT);
       return $oStmt->execute();
     }
 
 
     public function deleteVotes($iId){
-      $oStmt = $this->oDb->prepare('DELETE FROM Votes WHERE post_id = :postId');
-      $oStmt->bindParam(':postId', $iId, \PDO::PARAM_INT);
+      $oStmt = $this->oDb->prepare('DELETE FROM Votes WHERE animal_id = :animalId');
+      $oStmt->bindParam(':animalId', $iId, \PDO::PARAM_INT);
       return $oStmt->execute();
     }
 
 
-    public function deleteComment($iId)
+    public function deleteVisite($iId)
     {
-      $oStmt = $this->oDb->prepare('DELETE FROM Comments WHERE id = :id');
+      $oStmt = $this->oDb->prepare('DELETE FROM Visite WHERE id = :id');
       $oStmt->bindParam(':id', $iId, \PDO::PARAM_INT);
       return $oStmt->execute();
     }
@@ -172,24 +171,14 @@ class Admin extends Blog
     }
 
 
-    public function delete_comment()
+    public function delete_visite()
     {
-      $oStmt = $this->oDb->exec("DELETE FROM Comments WHERE id = {$_POST['id']}");
-      $oStmt = $this->oDb->exec("DELETE FROM Votes WHERE comment_id = {$_POST['id']}");
+      $oStmt = $this->oDb->exec("DELETE FROM Visite WHERE id = {$_POST['id']}");
+      $oStmt = $this->oDb->exec("DELETE FROM Prescrire WHERE idVisite = {$_POST['id']}");
     }
 
 
 //     /* ========== INSERT ========== */
-
-
-    // public function add(array $aData)
-    // {
-    //   $oStmt = $this->oDb->prepare('INSERT INTO Posts (title, body, createdDate) VALUES(:title, :body, :created_date)');
-    //   $oStmt->bindValue(':title', $aData['title'], \PDO::PARAM_STR);
-    //   $oStmt->bindValue(':body', $aData['body'], \PDO::PARAM_LOB);
-    //   $oStmt->bindValue(':createdDate', $aData['created_date'], \PDO::PARAM_STR);
-    //   return $oStmt->execute();
-    // }
 
 
     public function add(array $aData)

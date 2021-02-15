@@ -1,5 +1,5 @@
 <?php
-namespace BlogPhp\Engine\Pattern;
+namespace VetoPhp\Engine\Pattern;
 
 trait Base
 {

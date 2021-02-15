@@ -32,8 +32,8 @@
       	<thead>
       		<tr>
       			<th>Dossier</th>
-				<th>Utilisateur</th>
-      			<th>Aperçu des notes</th>
+				<th>Vétérinaire</th>
+      			<th>Aperçu des visites</th>
       			<th>Actions</th>
       		</tr>
       	</thead>
@@ -41,7 +41,7 @@
       		<?php if(!empty($this->oComments)): ?>
       			<?php foreach($this->oComments as $comment): ?>
       				<tr id="commentaire_<?= $comment->id ?>">
-      					<td><a href="blog_post_<?=$comment->post_id?>.html"><strong><?= $comment->nom ?></strong></a></td>
+      					<td><a href="veto_post_<?=$comment->post_id?>.html"><strong><?= $comment->nom ?></strong></a></td>
 						<td><?= substr($comment->pseudo,0,100); ?></td>
       					<td><?= substr($comment->comment,0,100); ?></td>
       					<td>
@@ -66,7 +66,7 @@
       		<?php else :?>
             <tr>
               <td></td>
-              <td>Aucune note à valider</td>
+              <td>Aucune prescription à valider</td>
               <td></td>
             </tr>
           <?php endif ?>
@@ -87,7 +87,7 @@
       		<?php if(!empty($this->oSignaledComments)): ?>
       			<?php foreach($this->oSignaledComments as $signaledComment): ?>
       				<tr id="commentaire_<?= $signaledComment->id ?>">
-      					<td><a href="blog_post_<?=$signaledComment->post_id?>.html"><strong><?= $signaledComment->title ?></strong></a></td>
+      					<td><a href="veto_post_<?=$signaledComment->post_id?>.html"><strong><?= $signaledComment->title ?></strong></a></td>
       					<td><?= substr($signaledComment->comment,0,100); ?></td>
                 <td><?= $signaledComment->signals ?></td>
       					<td>

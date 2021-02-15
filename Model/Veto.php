@@ -1,14 +1,14 @@
 <?php
 
-namespace BlogPhp\Model;
+namespace VetoPhp\Model;
 
-class Blog
+class Veto
 {
   protected $oDb;
 
   public function __construct()
   {
-    $this->oDb = new \BlogPhp\Engine\Db;
+    $this->oDb = new \VetoPhp\Engine\Db;
   }
 
 
@@ -70,10 +70,6 @@ class Blog
     SELECT idAnimal, nom FROM chien As A INNER JOIN race_chien AS B ON A.idRace = B.id order by idAnimal) 
     AS t2 ON t1.id = t2.idAnimal');
     
-    
-    //SELECT t1.id, t1.dateNaissance, t1.photo, t1.nom, t1.breed, t1.type FROM
-    //(SELECT id, nom,dateNaissance,photo,breed,type FROM animal) AS t1 
-    // ORDER BY id');
     return $oStmt->fetchAll(\PDO::FETCH_OBJ);
   }
 
@@ -153,7 +149,7 @@ class Blog
 
 	public function addComment(array $aData)
 	{
-		$oStmt = $this->oDb->prepare('INSERT INTO Comments (user_id, comment, post_id, date) VALUES(:user_id, :comment, :post_id, NOW())');
+		$oStmt = $this->oDb->prepare('INSERT INTO Comments (user_id, comment, animal_id, date) VALUES(:user_id, :comment, :animal_id, NOW())');
     return $oStmt->execute($aData);
 	}
 
@@ -173,7 +169,7 @@ class Blog
 
     if ($oStmt->rowCount() > 0)
     {
-      $oStmt = $this->oDb->prepare('INSERT INTO Votes (comment_id, user_id, post_id, vote) VALUES(:comment_id, :user_id, :post_id, 1) ');
+      $oStmt = $this->oDb->prepare('INSERT INTO Votes (comment_id, user_id, animal_id, vote) VALUES(:comment_id, :user_id, :animal_id, 1) ');
       $oStmt->execute($aData);
       return true;
     }

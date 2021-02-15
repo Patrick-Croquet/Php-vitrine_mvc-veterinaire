@@ -1,12 +1,12 @@
 <?php
 
-namespace BlogPhp\Controller;
+namespace VetoPhp\Controller;
 
 if (empty($_GET['a'])) {
 	$_GET['a'] = 'index';
 }
 
-class Blog
+class Veto
 {
   const MAX_POSTS = 10;
 
@@ -19,11 +19,11 @@ class Blog
     if (empty($_SESSION))
         @session_start();
 
-    $this->oUtil = new \BlogPhp\Engine\Util;
+    $this->oUtil = new \VetoPhp\Engine\Util;
 
     /** Récupère la classe Model dans toute la class controller **/
-    $this->oUtil->getModel('Blog');
-    $this->oModel = new \BlogPhp\Model\Blog;
+    $this->oUtil->getModel('Veto');
+    $this->oModel = new \VetoPhp\Model\Veto;
 
     /** Récupère l'identifiant de publication dans le constructeur afin d'éviter la duplication du même code **/
     $this->_iId = (int) (!empty($_GET['id']) ? $_GET['id'] : 0);
@@ -32,6 +32,7 @@ class Blog
 	/* ================ ACTIONS AVEC VUS ================ */
 
   // On obtient seulement les X derniers posts puis on affiche index.php
+  // On obtient seulement les X derniers animaux puis on affiche index.php
   public function index()
   {
       $this->oUtil->oAnimals = $this->oModel->get(0, self::MAX_POSTS);
@@ -47,11 +48,12 @@ class Blog
   }
 
 	// Récupère les données du post, les commentaires associés puis affiche la page post.php
-  public function post()
+	// Récupère les données de l'animal, les visites associées puis affiche la page animal.php
+  public function animal()
   {
     if(empty($_GET['id']))
     {
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
     }
 
     $this->oUtil->oAnimal = $this->oModel->getById($this->_iId);
@@ -62,28 +64,29 @@ class Blog
     {
         if (empty($_POST['comment']))
         {
-          $this->oUtil->sErrMsg = 'Vous n\'avez pas écrit de note';
+          $this->oUtil->sErrMsg = 'Vous n\'avez pas prescrit de médicament';
         }
         else
         {
-          $aData = array('user_id' => $getUserId->id, 'comment' => htmlspecialchars($_POST['comment']), 'post_id' => $_GET['id']);
+          $aData = array('user_id' => $getUserId->id, 'comment' => htmlspecialchars($_POST['comment']), 'animal_id' => $_GET['id']);
           $this->oModel->addComment($aData);
-          ?> <script>window.location.replace('blog_post_<?= $_GET['id'] ?>.html');</script> <?php
-          $this->oUtil->sSuccMsg = 'La Note a été posté !';
+          ?> <script>window.location.replace('Veto_animal_<?= $_GET['id'] ?>.html');</script> <?php
+          $this->oUtil->sSuccMsg = 'Le médicament a été prescrit !';
         }
     }
 
 		$this->oUtil->oUserVotes = $this->oModel->userVotes(current($_SESSION));
 
-    $this->oUtil->getView('post');
+    $this->oUtil->getView('animal');
   }
 
 	// On obtient tous les posts puis on affiche la page chapters.php
-  public function chapters()
+	// On obtient tous les animaux puis on affiche la page dossiers.php
+  public function dossiers()
   {
     $this->oUtil->oAnimals = $this->oModel->getAll();
 
-    $this->oUtil->getView('chapters');
+    $this->oUtil->getView('dossiers');
   }
 
 
@@ -91,7 +94,7 @@ class Blog
 	public function login()
 	{
 			if ($this->isLogged())
-					header('Location: ' . ROOT_URL . 'blog_index.html');
+					header('Location: ' . ROOT_URL . 'veto_index.html');
 
 			if (isset($_POST['submit']))
 			{
@@ -112,13 +115,13 @@ class Blog
 					if ($oIsAdmin->admin != null)
 					{
 						$_SESSION['is_admin'] = $oIsAdmin->pseudo; // Admin est connecté maintenant
-						header('Location: ' . ROOT_URL . 'blog_index.html');
+						header('Location: ' . ROOT_URL . 'veto_index.html');
 						exit;
 					}
 					else
 					{
 						$_SESSION['is_user'] = $oIsAdmin->pseudo; // user est connecté maintenant
-						header('Location: ' . ROOT_URL . 'blog_index.html');
+						header('Location: ' . ROOT_URL . 'veto_index.html');
 						exit;
 					}
 				}
@@ -132,12 +135,12 @@ class Blog
 	public function registration()
 	{
 		if ($this->isLogged())
-			header('Location: blog_index.html');
+			header('Location: veto_index.html');
 
 		if (isset($_POST['submit']))
 		{
 			$sPassword = htmlspecialchars(trim($_POST['password']));
-      $sPassword_again = htmlspecialchars(trim($_POST['password_again']));
+      		$sPassword_again = htmlspecialchars(trim($_POST['password_again']));
 			$sEmail = htmlspecialchars(trim($_POST['email']));
 			$sPseudo = htmlspecialchars(trim($_POST['pseudo']));
 
@@ -165,7 +168,7 @@ class Blog
 			{
 				$aData = array('email' => $sEmail, 'pseudo' => $sPseudo, 'password' => md5($sPassword));
 				$this->oModel->addUser($aData);
-				?> <script>window.location.replace('blog_login.html');</script> <?php
+				?> <script>window.location.replace('veto_login.html');</script> <?php
 				$this->oUtil->sSuccMsg = 'Votre compte a été créé, vous pouvez maintenant vous connecter';
 			}
 
@@ -205,7 +208,7 @@ class Blog
 	public function logout()
 	{
 		if (!$this->isLogged())
-			header('Location: blog_index.html');
+			header('Location: veto_index.html');
 
 		if (!empty($_SESSION))
 		{
@@ -224,7 +227,7 @@ class Blog
 	public function signal ()
 	{
 		if ($this->userIsLogged())
-			header('Location: blog_index.html');
+			header('Location: veto_index.html');
 
 		if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		{
@@ -234,7 +237,7 @@ class Blog
 
 		if ($_GET['vote'] == 1)
 		{
-			$aData = array('comment_id' => $_GET['commentId'], 'user_id' => current($_SESSION), 'post_id' =>$_GET['postid']);
+			$aData = array('comment_id' => $_GET['commentId'], 'user_id' => current($_SESSION), 'animal_id' =>$_GET['animalid']);
 
 			if ($this->oModel->signalExist($aData) > 0)
 			{
@@ -253,7 +256,7 @@ class Blog
 		{
 			$this->oUtil->getView('not_found');
 		}
-		header('Location: ' . ROOT_URL . 'blog_post_' . $_GET['postid'] . '.html#comment_ink');
+		header('Location: ' . ROOT_URL . 'veto_animal_' . $_GET['animalid'] . '.html#comment_ink');
 	}
 
 

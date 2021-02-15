@@ -1,8 +1,8 @@
 <?php
 
-namespace BlogPhp;
+namespace VetoPhp;
 
-use BlogPhp\Engine as E;
+use VetoPhp\Engine as E;
 
 // On déclare les constants (root server path + root URL)
 define('PROT', (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https://' : 'http://'); // Si on passe en https
@@ -13,7 +13,7 @@ try
 {
     require ROOT_PATH . 'Engine/Loader.php';
     E\Loader::getInstance()->init(); // Charge les class nécessaires
-    $aParams = ['ctrl' => (!empty($_GET['p']) ? $_GET['p'] : 'blog'), 'act' => (!empty($_GET['a']) ? $_GET['a'] : 'index')]; // si p est vide : p=blog, si a est vide : a=index
+    $aParams = ['ctrl' => (!empty($_GET['p']) ? $_GET['p'] : 'veto'), 'act' => (!empty($_GET['a']) ? $_GET['a'] : 'index')]; // si p est vide : p=veto, si a est vide : a=index
     E\Router::run($aParams); // Le routeur va lancer le Loader qui chargera le controller et l'action nécessaire
 }
 catch (\Exception $oE)

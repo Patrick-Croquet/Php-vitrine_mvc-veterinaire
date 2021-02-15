@@ -1,54 +1,54 @@
 <?php
 
-namespace BlogPhp\Controller;
+namespace VetoPhp\Controller;
 
-class Admin extends Blog
+class Admin extends Veto
 {
 
     /* ================ ACTIONS AVEC VUS ================ */
 
-    // Récupère les données de tous les posts puis affiche la page edit.php
+    // Récupère les données de tous les animaux puis affiche la page edit.php
     public function edit()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
-      $this->oUtil->oPosts = $this->oModel->getAll();
+      $this->oUtil->oAnimals = $this->oModel->getAll();
       $this->oUtil->getView('edit');
     }
 
-    // Affiche la page d'edition du dossier
-    // Suite à l'envoie du formulaire, on récupère les données saisies pour puis on update les données du post.
-    // Si on modifie l'image associée, on vérifie que l'extension existe (jpg, png ...)
-    public function editPost()
+    // Affiche la page d'édition du dossier
+    // Suite à l'envoie du formulaire, on récupère les données saisies puis on update les données de l'animal".
+    // Si on modifie la photo associée, on vérifie que l'extension existe (jpg, png ...)
+    public function editAnimal()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       if (isset($_POST['edit_submit']))
       {
-        if (empty($_POST['title']) || empty($_POST['body']))
+        if (empty($_POST['nom']))
         {
           $this->oUtil->sErrMsg = 'Tous les champs doivent être remplis.';
         }
         else
         {
           $this->oUtil->getModel('Admin');
-          $this->oModel = new \BlogPhp\Model\Admin;
+          $this->oModel = new \VetoPhp\Model\Admin;
 
-          $aData = array('post_id' => $_GET['id'], 'title' => $_POST['title'], 'body' => $_POST['body']);
+          $aData = array('animal_id' => $_GET['id'], 'nom' => $_POST['nom']);
           $this->oModel->update($aData);
 
-          if (!empty($_FILES['image']['name']))
+          if (!empty($_FILES['photo']['name']))
           {
-            $file = $_FILES['image']['name'];
+            $file = $_FILES['photo']['name'];
             $extensions = ['.png','.jpg','.jpeg','.gif','.PNG','.JPG','.JPEG','.GIF'];
             $extension = strrchr($file, '.');
             $id = $_GET['id'];
             if(!in_array($extension,$extensions)){
-              $this->oUtil->sErrMsg = "Cette image n'est pas valable";
+              $this->oUtil->sErrMsg = "Cette photo n'est pas valable";
             }
-            $this->oModel->updateImg($_FILES['image']['name'], $_GET['id'], $_FILES['image']['tmp_name']);
+            $this->oModel->updateImg($_FILES['photo']['name'], $_GET['id'], $_FILES['photo']['tmp_name']);
           }
 
           $this->oUtil->sSuccMsg = 'Le dossier a bien été mis à jour !';
@@ -56,19 +56,19 @@ class Admin extends Blog
         }
       }
 
-      /* Récupère les données du post */
-      $this->oUtil->oPost = $this->oModel->getById($_GET['id']);
+      /* Récupère les données de l'animal */
+      $this->oUtil->oAnimal = $this->oModel->getById($_GET['id']);
 
-      $this->oUtil->getView('edit_post');
+      $this->oUtil->getView('edit_animal');
     }
 
-    // Affiche la page add_post.php
-    // Suite à l'envoie du formulaire, on récupère les données et on les insert dans la table post
-    // Si il n'y a pas d'image associée, alors l'image de base sera post.png
+    // Affiche la page add_animal.php
+    // Suite à l'envoie du formulaire, on récupère les données et on les insert dans la table animal
+    // Si il n'y a pas de photo associée, alors la photo de base sera post.png
     public function add()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       if (isset($_POST['add_submit']))
       {
@@ -79,7 +79,7 @@ class Admin extends Blog
           else
           {
             $this->oUtil->getModel('Admin');
-            $this->oModel = new \BlogPhp\Model\Admin;
+            $this->oModel = new \VetoPhp\Model\Admin;
 
             $aData = array('nom' => $_POST['nom']);
             $this->oModel->add($aData);
@@ -92,14 +92,14 @@ class Admin extends Blog
               if(!in_array($extension,$extensions)){
         				  $this->oUtil->sErrMsg = "Cette photo n'est pas valable";
         			}
-              $this->oModel->postImg($_FILES['photo']['tmp_name'], $extension);
+              $this->oModel->animalImg($_FILES['photo']['tmp_name'], $extension);
             }
 
             $this->oUtil->sSuccMsg = 'Le dossier a bien été ajouté !';
           }
       }
 
-      $this->oUtil->getView('add_post');
+      $this->oUtil->getView('add_animal');
     }
 
     // On affiche la page dashboard.php
@@ -108,21 +108,21 @@ class Admin extends Blog
     public function dashboard()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       $this->oUtil->getModel('Admin');
-      $this->oModel = new \BlogPhp\Model\Admin;
+      $this->oModel = new \VetoPhp\Model\Admin;
 
       $tables = [
-      	'Publications' 	      	 => 'Posts',
-      	'Commentaires' 	  	     => 'Comments',
-      	'Utilisateurs' 	         => 'Users',
-        'Signalements'           => 'Votes'
+      	'Animaux' 	      	     => 'Animal',
+      	'Visites' 	  	         => 'Visite',
+      	'Vétérinaires' 	         => 'Users',
+        'Prescriptions'           => 'Votes'
       ];
 
       $colors = [
-      	'Posts'				           => 'green',
-      	'Comments' 		  	       => 'brown',
+      	'Animal'				         => 'green',
+      	'Visite' 		  	         => 'brown',
       	'Users' 			           => 'blue',
         'Votes'                  => 'red'
       ];
@@ -142,9 +142,9 @@ class Admin extends Blog
 
       $this->oUtil->length = count($this->oUtil->aTableName);
 
-      $this->oUtil->oComments = $this->oModel->getCommentsUnseen();
+      $this->oUtil->oVisites = $this->oModel->getVisitesUnseen();
 
-      $this->oUtil->oSignaledComments = $this->oModel->getSignaledComments();
+      $this->oUtil->oSignaledVisites = $this->oModel->getSignaledVisites();
 
       $this->oUtil->aNbrSignals = $this->oModel->getNbrSignals();
 
@@ -160,61 +160,63 @@ class Admin extends Blog
 
 
     // On supprime le post ainsi que les commentaires associés à ce post et les signalements de ces commentaires
+    // On supprime l'animal ainsi que les commentaires associés à cet animal et les signalements de ces commentaires
     public function delete()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       $this->oUtil->getModel('Admin');
-      $this->oModel = new \BlogPhp\Model\Admin;
+      $this->oModel = new \VetoPhp\Model\Admin;
 
-      $this->oModel->deleteComments($_GET['id']); // supprime les commentaires du post
-      $this->oModel->deleteVotes($_GET['id']);// supprime les votes des commentaires du post
-      $this->oModel->delete($_GET['id']); // supprime le post
+      $this->oModel->deleteVisites($_GET['id']); // supprime les visites de l'animal
+      $this->oModel->deleteVotes($_GET['id']);// supprime les médicaments des visites de l'animal
+      $this->oModel->delete($_GET['id']); // supprime l'animal
 
       header('Location: admin_edit.html');
     }
 
-    // On update le commentaire en mettant "vu"
-    public function seeCommentJs()
+    // On update la visite en mettant "vu"
+    public function seeVisiteJs()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       $this->oUtil->getModel('Admin');
-      $this->oModel = new \BlogPhp\Model\Admin;
+      $this->oModel = new \VetoPhp\Model\Admin;
 
-      $this->oModel->see_comment();
+      $this->oModel->see_visite();
     }
 
-    // On supprime le commentaire ainsi que les signalements associés
-    public function deleteCommentJs()
+    // On supprime la visite ainsi que les médicaments associés
+    public function deleteVisiteJs()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
       $this->oUtil->getModel('Admin');
-      $this->oModel = new \BlogPhp\Model\Admin;
+      $this->oModel = new \VetoPhp\Model\Admin;
 
-      $this->oModel->delete_comment();
+      $this->oModel->delete_visite();
       $this->oModel->deleteVotes($_GET['id']);
     }
 
     //On supprime le commentaire ainsi que les signalements associés
-    public function deleteComment()
+    //On supprime la visite ainsi que les médicaments associés
+    public function deleteVisite()
     {
       if (!$this->isLogged())
-      header('Location: blog_index.html');
+      header('Location: veto_index.html');
 
-      $oPost = $this->oUtil->oPost = $this->oModel->getById($_GET['postid']); // Récupère les données du post
+      $oAnimal = $this->oUtil->oAnimal = $this->oModel->getById($_GET['animalid']); // Récupère les données de l'animal
       $this->oUtil->getModel('Admin');
-      $this->oModel = new \BlogPhp\Model\Admin;
+      $this->oModel = new \VetoPhp\Model\Admin;
 
       $iId = $_GET['id'];
-      $this->oModel->deleteComment($iId); // supprime le commentaire
-      $this->oModel->deleteVote($iId); // supprime les signalements du commentaire
+      $this->oModel->deleteVisite($iId); // supprime la visite
+      $this->oModel->deleteVote($iId); // supprime les médicaments de la visite
 
-      header("Location: blog_post_$oPost->id.html");
+      header("Location: veto_animal_$oAnimal->id.html");
     }
 
     // On obtient la couleur associé à chaque table

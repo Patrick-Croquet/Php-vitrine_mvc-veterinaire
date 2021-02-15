@@ -15,7 +15,7 @@
   <table class="striped">
     <thead>
       <tr>
-          <th>Titre</th>
+          <th>Nom</th>
           <th>Date</th>
           <th>Action</th>
       </tr>

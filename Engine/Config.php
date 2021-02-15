@@ -1,6 +1,6 @@
 <?php
 
-namespace BlogPhp\Engine;
+namespace VetoPhp\Engine;
 
 final class Config
 {
@@ -12,5 +12,5 @@ final class Config
     DB_PWD = 'root',
 
     // Titre du site
-    SITE_NAME = 'Clinique Veterinaire';
+    SITE_NAME = 'Clinique Vétérinaire';
 }
