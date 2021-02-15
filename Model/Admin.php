@@ -18,22 +18,22 @@ class Admin extends Veto
   public function getVisitesUnseen()
   {
     $oStmt = $this->oDb->query("
-      SELECT  Comments.id,
-              Comments.user_id,
-              Comments.comment,
-              Comments.post_id,
-              Comments.date,
-              Comments.signals,
-              Animal.nom,
-              Users.pseudo
-      FROM Comments
-      JOIN Animal
-      ON Comments.post_id = Animal.id
-      JOIN Users
-      ON Comments.user_id = Users.id
-      WHERE Comments.seen = '0'
-      AND Comments.signals = '0'
-      ORDER BY Comments.date ASC
+      SELECT  Visite.id,
+              Visite.dateVisite,
+              Visite.heureVisite,
+              Visite.raison,
+              Animal.id as animal_id,
+              Animal.nom as animal_nom,
+              Veterinaire.nom as veto_nom,
+              Veterinaire.prenom as veto_prenom
+      FROM Visite
+      INNER JOIN Animal
+      ON Visite.idAnimal = Animal.id
+      INNER JOIN Veterinaire
+      ON Visite.idVeterinaire = Veterinaire.id
+      WHERE Visite.seen = '0'
+      AND Visite.signals = '0'
+      ORDER BY Visite.dateVisite ASC
     ");
 
     $results = [];
@@ -49,22 +49,22 @@ class Admin extends Veto
   public function getSignaledVisites()
   {
     $oStmt = $this->oDb->query("
-      SELECT  Comments.id,
-              Comments.user_id,
-              Comments.comment,
-              Comments.post_id,
-              Comments.date,
-              Comments.signals,
-              Animal.nom,
-              Users.pseudo
-      FROM Comments
-      JOIN Animal
-      ON Comments.post_id = Animal.id
-      JOIN Users
-      ON Comments.user_id = Users.id
-      WHERE Comments.seen = '0'
-      AND Comments.signals > '0'
-      ORDER BY Comments.signals
+    SELECT  Visite.id,
+              Visite.dateVisite,
+              Visite.heureVisite,
+              Visite.raison,
+              Animal.id as animal_id,
+              Animal.nom as animal_nom,
+              Veterinaire.nom as veto_nom,
+              Veterinaire.prenom as veto_prenom
+      FROM Visite
+      INNER JOIN Animal
+      ON Visite.idAnimal = Animal.id
+      INNER JOIN Veterinaire
+      ON Visite.idVeterinaire = Veterinaire.id
+      WHERE Visite.seen = '0'
+      AND Visite.signals > '0'
+      ORDER BY Visite.signals
     ");
 
     $results = [];

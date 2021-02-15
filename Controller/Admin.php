@@ -114,17 +114,17 @@ class Admin extends Veto
       $this->oModel = new \VetoPhp\Model\Admin;
 
       $tables = [
-      	'Animaux' 	      	     => 'Animal',
+      	'Dossiers' 	      	     => 'Animal',
       	'Visites' 	  	         => 'Visite',
-      	'Vétérinaires' 	         => 'Users',
-        'Prescriptions'           => 'Votes'
+      	'Vétérinaires' 	         => 'Veterinaire',
+        'Gardes'                 => 'Garde'
       ];
 
       $colors = [
       	'Animal'				         => 'green',
       	'Visite' 		  	         => 'brown',
-      	'Users' 			           => 'blue',
-        'Votes'                  => 'red'
+      	'Veterinaire' 			     => 'blue',
+        'Garde'                  => 'red'
       ];
 
       $this->oUtil->aColors = array();

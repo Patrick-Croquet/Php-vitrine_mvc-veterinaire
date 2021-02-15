@@ -18,7 +18,7 @@
 
   <!-- ============================== -->
 
-  <h4>Notes non lus</h4>
+  <h4>Visites non enregistrées</h4>
   <br>
   <div class="row white z-depth-3">
     <div class="col s12">
@@ -33,31 +33,31 @@
       		<tr>
       			<th>Dossier</th>
 				<th>Vétérinaire</th>
-      			<th>Aperçu des visites</th>
+      			<th>Nombre de visites</th>
       			<th>Actions</th>
       		</tr>
       	</thead>
       	<tbody>
-      		<?php if(!empty($this->oComments)): ?>
-      			<?php foreach($this->oComments as $comment): ?>
-      				<tr id="commentaire_<?= $comment->id ?>">
-      					<td><a href="veto_post_<?=$comment->post_id?>.html"><strong><?= $comment->nom ?></strong></a></td>
-						<td><?= substr($comment->pseudo,0,100); ?></td>
-      					<td><?= substr($comment->comment,0,100); ?></td>
+      		<?php if(!empty($this->oVisites)): ?>
+      			<?php foreach($this->oVisites as $visite): ?>
+      				<tr id="visite_<?= $visite->id ?>">
+      					<td><a href="veto_animal_<?=$visite->animal_id?>.html"><strong><?= $visite->animal_nom ?></strong></a></td>
+						<td>Dr. <?= substr($visite->veto_nom,0,100); ?></td>
+      					<td><?= substr($visite->comment,0,100); ?></td>
       					<td>
-      						<a id="<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light green see_comment"><i class="material-icons">done</i></a>
-      						<a id="<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment"><i class="material-icons">delete</i></a>
-      						<a href="#comment_<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger"><i class="material-icons">more_vert</i></a>
-      						<div class="modal" id="comment_<?= $comment->id ?>">
+      						<a id="<?= $visite->id ?>" class="btn-floating btn-small waves-effect waves-light green see_comment"><i class="material-icons">done</i></a>
+      						<a id="<?= $visite->id ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment"><i class="material-icons">delete</i></a>
+      						<a href="#visite_<?= $visite->id ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger"><i class="material-icons">more_vert</i></a>
+      						<div class="modal" id="visite_<?= $visite->id ?>">
       							<div class="modal-content">
-      								<h4><?= $comment->nom ?></h4>
-      								<p>Commentaire posté par <strong><?= $comment->pseudo.'</strong><br/>Le '.date('d/m/y à H:i', strtotime($comment->date)) ?></p>
+      								<h4><?= $visite->animal_nom ?></h4>
+      								<p>Visite effectuée par <strong>Dr. <?= $visite->veto_nom.'</strong><br/>Le '.date('d/m/y à H:i', strtotime($visite->dateVisite)) ?></p>
       								<hr>
-      								<p><?= nl2br($comment->comment) ?></p>
+      								<p><?= nl2br($visite->comment) ?></p>
       							</div>
       							<div class="modal-footer">
-      								<a id="<?= $comment->id ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment"><i class="material-icons">done</i></a>
-      								<a id="<?= $comment->id ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment"><i class="material-icons">delete</i></a>
+      								<a id="<?= $visite->id ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment"><i class="material-icons">done</i></a>
+      								<a id="<?= $visite->id ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment"><i class="material-icons">delete</i></a>
       							</div>
       						</div>
       					</td>
@@ -77,33 +77,35 @@
       <table class="centered bordered ">
       	<thead>
       		<tr>
-      			<th>Article</th>
-      			<th>Aperçu des commentaires</th>
-            <th>Signalements</th>
+			    <th>Dossier</th>
+				<th>Vétérinaire</th>
+      			<th>Nombre de visites</th>
+            	<th>Signalements</th>
       			<th>Actions</th>
       		</tr>
       	</thead>
       	<tbody>
-      		<?php if(!empty($this->oSignaledComments)): ?>
-      			<?php foreach($this->oSignaledComments as $signaledComment): ?>
-      				<tr id="commentaire_<?= $signaledComment->id ?>">
-      					<td><a href="veto_post_<?=$signaledComment->post_id?>.html"><strong><?= $signaledComment->title ?></strong></a></td>
-      					<td><?= substr($signaledComment->comment,0,100); ?></td>
-                <td><?= $signaledComment->signals ?></td>
+      		<?php if(!empty($this->oSignaledVisites)): ?>
+      			<?php foreach($this->oSignaledVisites as $signaledVisite): ?>
+      				<tr id="visite_<?= $signaledVisite->id ?>">
+      					<td><a href="veto_animal_<?=$signaledVisite->animal_id?>.html"><strong><?= $signaledVisite->animal_nom ?></strong></a></td>
+      					<td>Dr. <?= substr($visite->veto_nom,0,100); ?></td>
+						<td><?= substr($signaledVisite->comment,0,100); ?></td>
+                <td><?= $signaledVisite->signals ?></td>
       					<td>
-      						<a id="<?= $signaledComment->id ?>" class="btn-floating btn-small waves-effect waves-light green see_comment"><i class="material-icons">done</i></a>
-      						<a id="<?= $signaledComment->id ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment"><i class="material-icons">delete</i></a>
-      						<a href="#comment_<?= $signaledComment->id ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger"><i class="material-icons">more_vert</i></a>
-      						<div class="modal" id="comment_<?= $signaledComment->id ?>">
+      						<a id="<?= $signaledVisite->id ?>" class="btn-floating btn-small waves-effect waves-light green see_comment"><i class="material-icons">done</i></a>
+      						<a id="<?= $signaledVisite->id ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment"><i class="material-icons">delete</i></a>
+      						<a href="#visite_<?= $signaledVisite->id ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger"><i class="material-icons">more_vert</i></a>
+      						<div class="modal" id="visite_<?= $signaledVisite->id ?>">
       							<div class="modal-content">
-      								<h4><?= $signaledComment->title ?></h4>
-      								<p>Commentaire posté par <strong><?= $signaledComment->pseudo.'</strong><br/>Le '.date('d/m/y à H:i', strtotime($signaledComment->date)) ?></p>
+      								<h4><?= $signaledVisite->animal_nom ?></h4>
+      								<p>Visite effectuée par <strong>Dr. <?= $signaledVisite->veto_nom.'</strong><br/>Le '.date('d/m/y à H:i', strtotime($signaledVisite->dateVisite)) ?></p>
       								<hr>
-      								<p><?= nl2br($signaledComment->comment) ?></p>
+      								<p><?= nl2br($signaledVisite->comment) ?></p>
       							</div>
       							<div class="modal-footer">
-      								<a id="<?= $signaledComment->id ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment"><i class="material-icons">done</i></a>
-      								<a id="<?= $signaledComment->id ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment"><i class="material-icons">delete</i></a>
+      								<a id="<?= $signaledVisite->id ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment"><i class="material-icons">done</i></a>
+      								<a id="<?= $signaledVisite->id ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment"><i class="material-icons">delete</i></a>
       							</div>
       						</div>
       					</td>
@@ -112,7 +114,7 @@
       		<?php else :?>
       				<tr>
                 <td></td>
-      					<td>Aucun commentaire à valider</td>
+      					<td>Aucune visite à valider</td>
                 <td></td>
                 <td></td>
       				</tr>

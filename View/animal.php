@@ -35,7 +35,8 @@
                 <?php foreach ($this->oVisites as $oVisite): ?>
 
                     <blockquote id="blockquote">
-                        <strong><?= $oVisite->pseudo ?> <em>(Le <?= date('d/m/Y', strtotime($oVisite->date)) ?>)</em></strong> 
+                        <strong>Dr. <?= $oVisite->veto_nom ?> <em> (Le <?= date('d/m/Y', strtotime($oVisite->dateVisite)) ?>)</em></strong> 
+                        <p><?= $oVisite->raison ?></p>
                         <p><?= nl2br($oVisite->visite); ?></p>
                     </blockquote>
                     <?php if (!empty($_SESSION['is_admin'])): ?>

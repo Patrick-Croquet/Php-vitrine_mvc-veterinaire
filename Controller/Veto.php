@@ -43,7 +43,7 @@ class Veto
   // Page 404
   public function notFound()
   {
-			header('HTTP/1.0 404 Not Found');
+	  header('HTTP/1.0 404 Not Found');
       $this->oUtil->getView('not_found');
   }
 
@@ -57,7 +57,7 @@ class Veto
     }
 
     $this->oUtil->oAnimal = $this->oModel->getById($this->_iId);
-	  $this->oUtil->oComments = $this->oModel->getComments();
+	  $this->oUtil->oVisites = $this->oModel->getVisites();
 		$getUserId = $this->oModel->getUserId(current($_SESSION));
 
   	if (isset($_POST['submit_comment']))

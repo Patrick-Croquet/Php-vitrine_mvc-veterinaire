@@ -40,22 +40,22 @@ class Veto
   }
 
 
-	public function getComments()
+	public function getVisites()
 	{
 		$oStmt = $this->oDb->query("
-    SELECT Users.id,
-           Comments.user_id,
-           Comments.comment,
-           Comments.post_id,
-           Comments.date,
-           Comments.signals,
-           Users.pseudo,
-           Comments.id
-    FROM Comments
-    JOIN Users
-    ON Comments.user_id = Users.id
-    WHERE post_id = '{$_GET['id']}'
-    ORDER BY date DESC
+    SELECT Veterinaire.id,
+           Visite.idVeterinaire,
+           Visite.raison,
+           Visite.idAnimal,
+           Visite.dateVisite,
+           Visite.signals,
+           Veterinaire.nom as veto_nom,
+           Visite.id
+    FROM Visite
+    JOIN Veterinaire
+    ON Visite.idVeterinaire = Veterinaire.id
+    WHERE idAnimal = '{$_GET['id']}'
+    ORDER BY dateVisite DESC
        ");
     return $oStmt->fetchAll(\PDO::FETCH_OBJ);
 	}
