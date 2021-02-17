@@ -124,9 +124,9 @@ class Admin extends Veto
 
     public function see_visite()
     {
-      $oStmt = $this->oDb->exec("UPDATE Comments SET seen = '1' WHERE id='{$_POST['id']}'");
-      $oStmt = $this->oDb->exec("DELETE FROM Votes WHERE comment_id = {$_POST['id']}");
-      $oStmt = $this->oDb->exec("UPDATE Comments SET signals = '0' WHERE id='{$_POST['id']}'");
+      $oStmt = $this->oDb->exec("UPDATE Visite SET seen = '1' WHERE id='{$_POST['id']}'");
+      //$oStmt = $this->oDb->exec("DELETE FROM Prescrire WHERE idVisite = {$_POST['id']}");
+      $oStmt = $this->oDb->exec("UPDATE Visite SET signals = '0' WHERE id='{$_POST['id']}'");
     }
 
 

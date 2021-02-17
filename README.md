@@ -40,12 +40,6 @@ Compétences à valider
 
 Utilisateurs :
 test@test.com
-tom@gmail.com
-fleur@gmail.com
+patricia@gmail.com
 
 mdp : Afpa@94010
-
-and:
-
-yodafan@gmail.com
-mdp : fanfan55

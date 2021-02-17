@@ -50,9 +50,10 @@ class Veto
            Visite.dateVisite,
            Visite.signals,
            Veterinaire.nom as veto_nom,
+           Veterinaire.prenom as veto_prenom,
            Visite.id
     FROM Visite
-    JOIN Veterinaire
+    INNER JOIN Veterinaire
     ON Visite.idVeterinaire = Veterinaire.id
     WHERE idAnimal = '{$_GET['id']}'
     ORDER BY dateVisite DESC
@@ -147,9 +148,9 @@ class Veto
   /* ========== INSERT ========== */
 
 
-	public function addComment(array $aData)
+	public function addVisite(array $aData)
 	{
-		$oStmt = $this->oDb->prepare('INSERT INTO Comments (user_id, comment, animal_id, date) VALUES(:user_id, :comment, :animal_id, NOW())');
+		$oStmt = $this->oDb->prepare('INSERT INTO Visite (dateVisite, heureVisite, raison, idDossier, idAnimal, idVeterinaire) VALUES(NOW(), NOW(), :raison, :idDossier, :idAnimal, :idVeterinaire)');
     return $oStmt->execute($aData);
 	}
 
@@ -161,21 +162,21 @@ class Veto
   }
 
 
-  public function signalComment($aData)
+  public function signalVisite($aData)
   {
-    $oStmt = $this->oDb->prepare('SELECT * FROM Comments WHERE id = :comment_id');
-    $oStmt->bindValue(':comment_id', $aData['comment_id'], \PDO::PARAM_INT);
+    $oStmt = $this->oDb->prepare('SELECT * FROM Visite WHERE id = :visite_id');
+    $oStmt->bindValue(':visite_id', $aData['visite_id'], \PDO::PARAM_INT);
     $oStmt->execute();
 
     if ($oStmt->rowCount() > 0)
     {
-      $oStmt = $this->oDb->prepare('INSERT INTO Votes (comment_id, user_id, animal_id, vote) VALUES(:comment_id, :user_id, :animal_id, 1) ');
+      $oStmt = $this->oDb->prepare('INSERT INTO Votes (visite_id, user_id, animal_id, vote) VALUES(:visite_id, :user_id, :animal_id, 1) ');
       $oStmt->execute($aData);
       return true;
     }
     else
     {
-      throw new \Exception("Impossible de voter pour un commentaire qui n'existe pas");
+      throw new \Exception("Impossible d'enregistrer une visite qui n'existe pas");
 
     }
   }
@@ -186,19 +187,19 @@ class Veto
 
   public function substrSignal($id)
   {
-    $oStmt = $this->oDb->exec("UPDATE Comments SET signals = signals - '1' WHERE id='$id'");
+    $oStmt = $this->oDb->exec("UPDATE Visite SET signals = signals - '1' WHERE id='$id'");
   }
 
 
   public function addSignal($id)
   {
-    $oStmt = $this->oDb->exec("UPDATE Comments SET signals = signals + '1' WHERE id='$id'");
+    $oStmt = $this->oDb->exec("UPDATE Visite SET signals = signals + '1' WHERE id='$id'");
   }
 
 
   public function setUnseen($id)
   {
-    $oStmt = $this->oDb->exec("UPDATE Comments SET seen = '0' WHERE id='$id'");
+    $oStmt = $this->oDb->exec("UPDATE Visite SET seen = '0' WHERE id='$id'");
   }
 
 

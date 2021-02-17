@@ -5,19 +5,18 @@ $(document).ready(function(){
 
 	$('.modal').modal();
 
-	$('.see_comment').click(function(){
+	$('.see_visite').click(function(){
 		var id = $(this).attr('id');
-		$.post('admin_seeCommentJs.html', {id:id}, function(){
-			$('#commentaire_'+id).hide();
+		$.animal('admin_seeVisiteJs.html', {id:id}, function(){
+			$('#visite_'+id).hide();
 		});
 	});
 
-	$('.delete_comment').click(function(){
+	$('.delete_visite').click(function(){
 		var id = $(this).attr('id');
-		$.post('admin_deleteCommentJs.html', {id:id}, function(){
-			$('#commentaire_'+id).hide();
+		$.animal('admin_deleteVisiteJs.html', {id:id}, function(){
+			$('#visite_'+id).hide();
 		});
 	});
 
 });
-

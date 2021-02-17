@@ -15,7 +15,7 @@
                 <h1><?=htmlspecialchars($this->oAnimal->nom)?></h1>
                 <p>Animal id : <?=nl2br($this->oAnimal->id)?></p> 
                 <p>Date de naissance : <?=  date( "d-m-Y", strtotime($this->oAnimal->dateNaissance) ); ?><br>
-				<p>Animal race :<?= nl2br($this->oAnimal->race); ?><br>
+				<p>Animal race : <?= nl2br($this->oAnimal->race); ?><br>
 				<!--<p>Animal race :<?//= nl2br($this->oAnimal->breed); ?><br>
 				<p>Type d'animal :<?=  nl2br($this->oAnimal->type); ?><br>-->
                 <img src="<?=ROOT_URL?>static/img/animals/<?= $this->oAnimal->photo ?>" class="activator right circle" alt="">
@@ -35,9 +35,8 @@
                 <?php foreach ($this->oVisites as $oVisite): ?>
 
                     <blockquote id="blockquote">
-                        <strong>Dr. <?= $oVisite->veto_nom ?> <em> (Le <?= date('d/m/Y', strtotime($oVisite->dateVisite)) ?>)</em></strong> 
-                        <p><?= $oVisite->raison ?></p>
-                        <p><?= nl2br($oVisite->visite); ?></p>
+                        <strong>Dr. <?= $oVisite->veto_prenom ?> <?= $oVisite->veto_nom ?> <em> (Le <?= date('d/m/Y', strtotime($oVisite->dateVisite)) ?>)</em></strong> 
+                        <p><?= nl2br($oVisite->raison); ?></p>
                     </blockquote>
                     <?php if (!empty($_SESSION['is_admin'])): ?>
                         <a href="<?=ROOT_URL?>?p=admin&amp;a=deleteVisite&amp;id=<?=$oVisite->id?>&amp;animalId=<?=$this->oAnimal->id?>"><button class="btn light-green waves-effect waves-light">Supprimer</button></a>
@@ -75,8 +74,8 @@
                 <form method="post">
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea name="visite" id="visite" class="materialize-textarea" maxlength="1200"></textarea>
-                            <label for="visite">Visite</label>
+                            <textarea name="raison" id="raison" class="materialize-textarea" maxlength="1200"></textarea>
+                            <label for="raison">Raison de la visite</label>
                         </div>
                         <div class="col s12">
                             <button type="submit" name="submit_visite" class="btn deep-orange waves-effect waves-light">

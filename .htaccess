@@ -9,4 +9,4 @@ ErrorDocument 504 /Php-vitrine_mvc-veterinaire/view/error.php
 RewriteEngine On
 RewriteRule ^([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2 [L]
 RewriteRule ^([^_]*)_([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2&id=$3 [L]
-RewriteRule ^([^_]*)_([^_]*)_([^_]*)_([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2&postid=$3&commentId=$4&vote=$5 [L]
+RewriteRule ^([^_]*)_([^_]*)_([^_]*)_([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2&animalid=$3&visiteId=$4&prescrire=$5 [L]

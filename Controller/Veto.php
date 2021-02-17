@@ -60,18 +60,18 @@ class Veto
 	  $this->oUtil->oVisites = $this->oModel->getVisites();
 		$getUserId = $this->oModel->getUserId(current($_SESSION));
 
-  	if (isset($_POST['submit_comment']))
+  	if (isset($_POST['submit_visite']))
     {
-        if (empty($_POST['comment']))
+        if (empty($_POST['raison']))
         {
-          $this->oUtil->sErrMsg = 'Vous n\'avez pas prescrit de médicament';
+          $this->oUtil->sErrMsg = 'Vous n\'avez pas mentionné la raison de la visite';
         }
         else
         {
-          $aData = array('user_id' => $getUserId->id, 'comment' => htmlspecialchars($_POST['comment']), 'animal_id' => $_GET['id']);
-          $this->oModel->addComment($aData);
+          $aData = array('idDossier' => $_GET['id'], 'idAnimal' => $_GET['id'], 'idVeterinaire' => $getUserId->id, 'raison' => htmlspecialchars($_POST['raison']) );
+          $this->oModel->addVisite($aData);
           ?> <script>window.location.replace('Veto_animal_<?= $_GET['id'] ?>.html');</script> <?php
-          $this->oUtil->sSuccMsg = 'Le médicament a été prescrit !';
+          $this->oUtil->sSuccMsg = 'La visite a été effectuée !';
         }
     }
 
@@ -237,18 +237,18 @@ class Veto
 
 		if ($_GET['vote'] == 1)
 		{
-			$aData = array('comment_id' => $_GET['commentId'], 'user_id' => current($_SESSION), 'animal_id' =>$_GET['animalid']);
+			$aData = array('visite_id' => $_GET['visiteId'], 'user_id' => current($_SESSION), 'animal_id' =>$_GET['animalid']);
 
 			if ($this->oModel->signalExist($aData) > 0)
 			{
 				$this->oModel->deleteUserVote($aData);
-				$this->oModel->substrSignal($_GET['commentId']);
+				$this->oModel->substrSignal($_GET['visiteId']);
 			}
 			else
 			{
-				$this->oModel->signalComment($aData);
-				$this->oModel->addSignal($_GET['commentId']);
-				$this->oModel->setUnseen($_GET['commentId']);
+				$this->oModel->signalVisite($aData);
+				$this->oModel->addSignal($_GET['visiteId']);
+				$this->oModel->setUnseen($_GET['visiteId']);
 			}
 
 		}
@@ -256,7 +256,7 @@ class Veto
 		{
 			$this->oUtil->getView('not_found');
 		}
-		header('Location: ' . ROOT_URL . 'veto_animal_' . $_GET['animalid'] . '.html#comment_ink');
+		header('Location: ' . ROOT_URL . 'veto_animal_' . $_GET['animalid'] . '.html#visite_ink');
 	}
 
 
