@@ -1,12 +1,12 @@
-ErrorDocument 403 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 404 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 405 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 408 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 500 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 502 /Php-vitrine_mvc-veterinaire/view/error.php
-ErrorDocument 504 /Php-vitrine_mvc-veterinaire/view/error.php
+ErrorDocument 403 /clinique-veterinaire/view/error.php
+ErrorDocument 404 /clinique-veterinaire/view/error.php
+ErrorDocument 405 /clinique-veterinaire/view/error.php
+ErrorDocument 408 /clinique-veterinaire/view/error.php
+ErrorDocument 500 /clinique-veterinaire/view/error.php
+ErrorDocument 502 /clinique-veterinaire/view/error.php
+ErrorDocument 504 /clinique-veterinaire/view/error.php
 
 RewriteEngine On
-RewriteRule ^([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2 [L]
-RewriteRule ^([^_]*)_([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2&id=$3 [L]
-RewriteRule ^([^_]*)_([^_]*)_([^_]*)_([^_]*)_([^_]*)\.html$ /Php-vitrine_mvc-veterinaire/?p=$1&a=$2&animalid=$3&visiteId=$4&prescrire=$5 [L]
+RewriteRule ^([^_]*)_([^_]*)\.html$ /clinique-veterinaire/?p=$1&a=$2 [L]
+RewriteRule ^([^_]*)_([^_]*)_([^_]*)\.html$ /clinique-veterinaire/?p=$1&a=$2&id=$3 [L]
+RewriteRule ^([^_]*)_([^_]*)_([^_]*)_([^_]*)_([^_]*)\.html$ /clinique-veterinaire/?p=$1&a=$2&animalid=$3&visiteId=$4&prescrire=$5 [L]

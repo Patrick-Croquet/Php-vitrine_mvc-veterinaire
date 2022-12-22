@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 11 fév. 2021 à 12:54
--- Version du serveur :  8.0.21
--- Version de PHP : 7.4.9
+-- Hôte : localhost:8889
+-- Généré le : ven. 06 août 2021 à 07:22
+-- Version du serveur :  5.7.32
+-- Version de PHP : 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,31 +27,26 @@ SET time_zone = "+00:00";
 -- Structure de la table `animal`
 --
 
-DROP TABLE IF EXISTS `animal`;
-CREATE TABLE IF NOT EXISTS `animal` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
+CREATE TABLE `animal` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `dateNaissance` date NOT NULL,
   `dateDeces` date NOT NULL,
-  `breed` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `photo` varchar(255) NOT NULL,
-  `idProprietaire` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_animal_proprietaire1_idx` (`idProprietaire`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `idProprietaire` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `animal`
 --
 
-INSERT INTO `animal` (`id`, `type`, `nom`, `dateNaissance`, `dateDeces`, `breed`, `photo`, `idProprietaire`) VALUES
-(1, 'dog', 'Lennie', '2017-02-08', '0000-00-00', 'Bull terrier', 'Lennie_resultat.jpg', 2),
-(2, 'dog', 'Max', '2015-05-08', '0000-00-00', 'Border Collie', 'Max_resultat.jpg', 4),
-(3, 'cat', 'Ben', '2013-01-03', '2020-02-17', 'Maine Coon', 'Ben_resultat.jpg', 5),
-(4, 'cat', 'Poppy', '2019-05-03', '0000-00-00', 'Bengal', 'bengal_resultat.jpg', 3),
-(5, 'rabbit', 'Pebble', '2018-07-08', '2020-11-17', 'Dwarf', 'rabbit_resultat.jpg', 5),
-(6, 'parrot', 'Betsy', '2019-01-03', '0000-00-00', 'Congo African Grey', 'Congo-African-grey_resultat.jpg', 1);
+INSERT INTO `animal` (`id`, `nom`, `dateNaissance`, `dateDeces`, `photo`, `idProprietaire`) VALUES
+(1, 'Lennie', '2017-02-08', '0000-00-00', 'Lennie_resultat.jpg', 2),
+(2, 'Max', '2015-05-08', '0000-00-00', 'Max_resultat.jpg', 4),
+(3, 'Ben', '2013-01-03', '2020-02-17', 'Ben_resultat.jpg', 5),
+(4, 'Poppy', '2019-05-03', '0000-00-00', 'bengal_resultat.jpg', 3),
+(5, 'Pebble', '2018-07-08', '2020-11-17', 'rabbit_resultat.jpg', 5),
+(6, 'Betsy', '2019-01-03', '0000-00-00', 'Congo-African-grey_resultat.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -59,21 +54,18 @@ INSERT INTO `animal` (`id`, `type`, `nom`, `dateNaissance`, `dateDeces`, `breed`
 -- Structure de la table `chat`
 --
 
-DROP TABLE IF EXISTS `chat`;
-CREATE TABLE IF NOT EXISTS `chat` (
-  `idAnimal` int NOT NULL AUTO_INCREMENT,
-  `idRace` int NOT NULL,
-  PRIMARY KEY (`idAnimal`),
-  KEY `fk_chat_race_chat1_idx` (`idRace`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `chat` (
+  `idAnimal` int(11) NOT NULL,
+  `idRace` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `chat`
 --
 
 INSERT INTO `chat` (`idAnimal`, `idRace`) VALUES
-(1, 45),
-(2, 36);
+(2, 36),
+(4, 45);
 
 -- --------------------------------------------------------
 
@@ -81,23 +73,20 @@ INSERT INTO `chat` (`idAnimal`, `idRace`) VALUES
 -- Structure de la table `chien`
 --
 
-DROP TABLE IF EXISTS `chien`;
-CREATE TABLE IF NOT EXISTS `chien` (
-  `idAnimal` int NOT NULL AUTO_INCREMENT,
-  `taille` int NOT NULL,
-  `poids` int NOT NULL,
-  `idRace` int NOT NULL,
-  PRIMARY KEY (`idAnimal`),
-  KEY `fk_chien_race_chien_idx` (`idRace`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `chien` (
+  `idAnimal` int(11) NOT NULL,
+  `taille` int(11) NOT NULL,
+  `poids` int(11) NOT NULL,
+  `idRace` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `chien`
 --
 
 INSERT INTO `chien` (`idAnimal`, `taille`, `poids`, `idRace`) VALUES
+(1, 48, 20, 1),
 (3, 35, 15, 3),
-(4, 48, 20, 1),
 (5, 40, 24, 2);
 
 -- --------------------------------------------------------
@@ -106,25 +95,23 @@ INSERT INTO `chien` (`idAnimal`, `taille`, `poids`, `idRace`) VALUES
 -- Structure de la table `comments`
 --
 
-DROP TABLE IF EXISTS `comments`;
-CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `comment` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `post_id` int NOT NULL,
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `comment` text NOT NULL,
+  `post_id` int(11) NOT NULL,
   `date` datetime NOT NULL,
-  `seen` tinyint NOT NULL DEFAULT '0',
-  `signals` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=latin1;
+  `seen` tinyint(4) NOT NULL DEFAULT '0',
+  `signals` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
 INSERT INTO `comments` (`id`, `user_id`, `comment`, `post_id`, `date`, `seen`, `signals`) VALUES
-(98, 16, 'Magnifique, j\'adore Grogu et oui il est la plus mignonne', 40, '2021-02-06 20:42:45', 1, 0),
 (97, 14, 'Interessante !', 40, '2021-02-06 20:07:57', 1, 0),
+(98, 16, 'Magnifique, j\'adore Grogu et oui il est la plus mignonne', 40, '2021-02-06 20:42:45', 1, 0),
 (99, 16, 'Note 1002 1020', 1, '2021-02-10 20:10:20', 0, 0),
 (100, 16, 'testest', 1, '2021-02-10 21:04:46', 0, 0),
 (104, 16, 'here is a commnet', 1, '2021-02-10 21:53:59', 0, 0),
@@ -136,12 +123,10 @@ INSERT INTO `comments` (`id`, `user_id`, `comment`, `post_id`, `date`, `seen`, `
 -- Structure de la table `dossier`
 --
 
-DROP TABLE IF EXISTS `dossier`;
-CREATE TABLE IF NOT EXISTS `dossier` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `antecedents` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `dossier` (
+  `id` int(11) NOT NULL,
+  `antecedents` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `dossier`
@@ -157,13 +142,10 @@ INSERT INTO `dossier` (`id`, `antecedents`) VALUES
 -- Structure de la table `effectuer`
 --
 
-DROP TABLE IF EXISTS `effectuer`;
-CREATE TABLE IF NOT EXISTS `effectuer` (
-  `idGarde` int NOT NULL AUTO_INCREMENT,
-  `idVeterinaire` int NOT NULL,
-  PRIMARY KEY (`idGarde`),
-  KEY `fk_effectuer_veterinaire1_idx` (`idVeterinaire`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `effectuer` (
+  `idGarde` int(11) NOT NULL,
+  `idVeterinaire` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `effectuer`
@@ -179,14 +161,12 @@ INSERT INTO `effectuer` (`idGarde`, `idVeterinaire`) VALUES
 -- Structure de la table `garde`
 --
 
-DROP TABLE IF EXISTS `garde`;
-CREATE TABLE IF NOT EXISTS `garde` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `garde` (
+  `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `heure_debut` time NOT NULL,
-  `heure_fin` time NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `heure_fin` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `garde`
@@ -202,16 +182,13 @@ INSERT INTO `garde` (`id`, `date`, `heure_debut`, `heure_fin`) VALUES
 -- Structure de la table `horaire`
 --
 
-DROP TABLE IF EXISTS `horaire`;
-CREATE TABLE IF NOT EXISTS `horaire` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `horaire` (
+  `id` int(11) NOT NULL,
   `jour` date NOT NULL,
   `heureDebut` time NOT NULL,
   `heureFin` time NOT NULL,
-  `idVeterinaire` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_horaire_veterinaire1_idx` (`idVeterinaire`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `idVeterinaire` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `horaire`
@@ -227,16 +204,14 @@ INSERT INTO `horaire` (`id`, `jour`, `heureDebut`, `heureFin`, `idVeterinaire`) 
 -- Structure de la table `medicament`
 --
 
-DROP TABLE IF EXISTS `medicament`;
-CREATE TABLE IF NOT EXISTS `medicament` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `medicament` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `dosage` varchar(255) NOT NULL,
   `indications` varchar(255) NOT NULL,
   `effetsSecondaires` varchar(255) NOT NULL,
-  `laboratoire` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `laboratoire` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `medicament`
@@ -252,16 +227,14 @@ INSERT INTO `medicament` (`id`, `nom`, `dosage`, `indications`, `effetsSecondair
 -- Structure de la table `posts`
 --
 
-DROP TABLE IF EXISTS `posts`;
-CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `posts` (
+  `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `body` longtext NOT NULL,
   `image` varchar(255) NOT NULL DEFAULT 'post.png',
   `image2` varchar(255) NOT NULL,
-  `createdDate` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+  `createdDate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `posts`
@@ -279,13 +252,11 @@ INSERT INTO `posts` (`id`, `title`, `body`, `image`, `image2`, `createdDate`) VA
 -- Structure de la table `prescrire`
 --
 
-DROP TABLE IF EXISTS `prescrire`;
-CREATE TABLE IF NOT EXISTS `prescrire` (
-  `idVisite` int NOT NULL AUTO_INCREMENT,
-  `idMedicament` int NOT NULL,
-  `posologie` varchar(255) NOT NULL,
-  PRIMARY KEY (`idVisite`)
-) ENGINE=MyISAM AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `prescrire` (
+  `idVisite` int(11) NOT NULL,
+  `idMedicament` int(11) NOT NULL,
+  `posologie` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `prescrire`
@@ -301,18 +272,16 @@ INSERT INTO `prescrire` (`idVisite`, `idMedicament`, `posologie`) VALUES
 -- Structure de la table `proprietaire`
 --
 
-DROP TABLE IF EXISTS `proprietaire`;
-CREATE TABLE IF NOT EXISTS `proprietaire` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proprietaire` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `rue` varchar(255) NOT NULL,
   `codePostal` varchar(255) NOT NULL,
   `ville` varchar(255) NOT NULL,
   `telephone` varchar(255) NOT NULL,
-  `telephoneMobile` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `telephoneMobile` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `proprietaire`
@@ -328,12 +297,10 @@ INSERT INTO `proprietaire` (`id`, `nom`, `prenom`, `rue`, `codePostal`, `ville`,
 -- Structure de la table `race_chat`
 --
 
-DROP TABLE IF EXISTS `race_chat`;
-CREATE TABLE IF NOT EXISTS `race_chat` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `race_chat` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `race_chat`
@@ -350,12 +317,10 @@ INSERT INTO `race_chat` (`id`, `nom`) VALUES
 -- Structure de la table `race_chien`
 --
 
-DROP TABLE IF EXISTS `race_chien`;
-CREATE TABLE IF NOT EXISTS `race_chien` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `race_chien` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `race_chien`
@@ -372,15 +337,13 @@ INSERT INTO `race_chien` (`id`, `nom`) VALUES
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
   `email` varchar(120) NOT NULL,
-  `password` char(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `admin` int DEFAULT NULL,
-  `pseudo` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  `password` char(60) NOT NULL,
+  `admin` int(11) DEFAULT NULL,
+  `pseudo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `users`
@@ -398,15 +361,13 @@ INSERT INTO `users` (`id`, `email`, `password`, `admin`, `pseudo`) VALUES
 -- Structure de la table `veterinaire`
 --
 
-DROP TABLE IF EXISTS `veterinaire`;
-CREATE TABLE IF NOT EXISTS `veterinaire` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `veterinaire` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `telephone` varchar(255) NOT NULL,
-  `telephoneMobile` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `telephoneMobile` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `veterinaire`
@@ -422,18 +383,15 @@ INSERT INTO `veterinaire` (`id`, `nom`, `prenom`, `telephone`, `telephoneMobile`
 -- Structure de la table `visite`
 --
 
-DROP TABLE IF EXISTS `visite`;
-CREATE TABLE IF NOT EXISTS `visite` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `visite` (
+  `id` int(11) NOT NULL,
   `dateVisite` date NOT NULL,
   `heureVisite` time NOT NULL,
   `raison` varchar(255) NOT NULL,
-  `idDossier` int NOT NULL,
-  `idAnimal` int NOT NULL,
-  `idVeterinaire` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_visite_veterinaire1_idx` (`idVeterinaire`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `idDossier` int(11) NOT NULL,
+  `idAnimal` int(11) NOT NULL,
+  `idVeterinaire` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `visite`
@@ -450,15 +408,243 @@ INSERT INTO `visite` (`id`, `dateVisite`, `heureVisite`, `raison`, `idDossier`, 
 -- Structure de la table `votes`
 --
 
-DROP TABLE IF EXISTS `votes`;
-CREATE TABLE IF NOT EXISTS `votes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `comment_id` int NOT NULL,
-  `user_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `post_id` int NOT NULL,
-  `vote` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
+CREATE TABLE `votes` (
+  `id` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL,
+  `user_id` varchar(50) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `vote` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `animal`
+--
+ALTER TABLE `animal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_animal_proprietaire1_idx` (`idProprietaire`);
+
+--
+-- Index pour la table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`idAnimal`),
+  ADD KEY `fk_chat_race_chat1_idx` (`idRace`);
+
+--
+-- Index pour la table `chien`
+--
+ALTER TABLE `chien`
+  ADD PRIMARY KEY (`idAnimal`),
+  ADD KEY `fk_chien_race_chien_idx` (`idRace`);
+
+--
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `dossier`
+--
+ALTER TABLE `dossier`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `effectuer`
+--
+ALTER TABLE `effectuer`
+  ADD PRIMARY KEY (`idGarde`),
+  ADD KEY `fk_effectuer_veterinaire1_idx` (`idVeterinaire`);
+
+--
+-- Index pour la table `garde`
+--
+ALTER TABLE `garde`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `horaire`
+--
+ALTER TABLE `horaire`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_horaire_veterinaire1_idx` (`idVeterinaire`);
+
+--
+-- Index pour la table `medicament`
+--
+ALTER TABLE `medicament`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `prescrire`
+--
+ALTER TABLE `prescrire`
+  ADD PRIMARY KEY (`idVisite`);
+
+--
+-- Index pour la table `proprietaire`
+--
+ALTER TABLE `proprietaire`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `race_chat`
+--
+ALTER TABLE `race_chat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `race_chien`
+--
+ALTER TABLE `race_chien`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `veterinaire`
+--
+ALTER TABLE `veterinaire`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `visite`
+--
+ALTER TABLE `visite`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_visite_veterinaire1_idx` (`idVeterinaire`);
+
+--
+-- Index pour la table `votes`
+--
+ALTER TABLE `votes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `animal`
+--
+ALTER TABLE `animal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT pour la table `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `idAnimal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `chien`
+--
+ALTER TABLE `chien`
+  MODIFY `idAnimal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+
+--
+-- AUTO_INCREMENT pour la table `dossier`
+--
+ALTER TABLE `dossier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `effectuer`
+--
+ALTER TABLE `effectuer`
+  MODIFY `idGarde` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `garde`
+--
+ALTER TABLE `garde`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `horaire`
+--
+ALTER TABLE `horaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `medicament`
+--
+ALTER TABLE `medicament`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT pour la table `prescrire`
+--
+ALTER TABLE `prescrire`
+  MODIFY `idVisite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=443;
+
+--
+-- AUTO_INCREMENT pour la table `proprietaire`
+--
+ALTER TABLE `proprietaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `race_chat`
+--
+ALTER TABLE `race_chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT pour la table `race_chien`
+--
+ALTER TABLE `race_chien`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT pour la table `veterinaire`
+--
+ALTER TABLE `veterinaire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `visite`
+--
+ALTER TABLE `visite`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `votes`
+--
+ALTER TABLE `votes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -93,7 +93,7 @@ class Veto
     $sSql = "SELECT * FROM Users WHERE email = :email AND password = :password";
     $oStmt = $this->oDb->prepare($sSql);
     $oStmt->execute($a);
-    $exist = $oStmt->rowCount($sSql);
+    $exist = $oStmt->rowCount();
 
     return $exist;
   }
